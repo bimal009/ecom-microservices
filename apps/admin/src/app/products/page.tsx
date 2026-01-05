@@ -4,7 +4,7 @@ import { DataTable } from "./data-table";
 const getData = async (): Promise<Product[]> => {
   return [
     {
-      id: 1,
+      id: "prod_TjkH4kPXp8W4NU",
       name: "Adidas CoreFit T-Shirt",
       shortDescription:
         "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",

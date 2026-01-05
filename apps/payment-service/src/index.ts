@@ -2,18 +2,17 @@ import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { shouldBeUser } from './middlewares/auth.middleware.js'
-
-// Define your app environment type
+import SessionRoute from './routes/session.route.js';
+import {cors} from 'hono/cors'
 type Env = {
   Variables: {
     userId: string;
   };
 };
 
-// Type your Hono app instance
 const app = new Hono<Env>()
-
 app.use('*', clerkMiddleware())
+app.use('*',cors({origin:["http://localhost:3000","http://localhost:3001"]}))
 
 app.get('/health', (c) => {
   return c.json({
@@ -29,6 +28,8 @@ app.get('/test', shouldBeUser, (c) => {
     userId: c.get('userId')
   })
 })
+
+app.route('/sessions',SessionRoute)
 
 const start = async() => {
   try {

@@ -4,7 +4,7 @@ import { Badge } from "./ui/badge";
 
 const popularProducts = [
   {
-    id: 1,
+    id: "prod_TjkH4kPXp8W4NU",
     name: "Adidas CoreFit T-Shirt",
     shortDescription:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",

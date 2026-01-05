@@ -8,7 +8,7 @@ type Env = {
 };
 
 export const shouldBeUser = createMiddleware<Env>(async (c, next) => {
-  const auth = getAuth(c);
+  const auth = await getAuth(c);
   const userId = auth?.userId;
 
   if (!userId) {
@@ -21,7 +21,7 @@ export const shouldBeUser = createMiddleware<Env>(async (c, next) => {
 });
 
 export const shouldBeAdmin = createMiddleware<Env>(async (c, next) => {
-  const auth = getAuth(c);
+  const auth = await getAuth(c);
   const userId = auth?.userId;
 
   if (!userId) {
