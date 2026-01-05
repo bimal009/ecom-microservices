@@ -4,6 +4,7 @@ import { Hono } from 'hono'
 import { shouldBeUser } from './middlewares/auth.middleware.js'
 import SessionRoute from './routes/session.route.js';
 import {cors} from 'hono/cors'
+import webhookRoute from './routes/webhook.route.js';
 type Env = {
   Variables: {
     userId: string;
@@ -30,6 +31,7 @@ app.get('/test', shouldBeUser, (c) => {
 })
 
 app.route('/sessions',SessionRoute)
+app.route('/webhooks',webhookRoute)
 
 const start = async() => {
   try {

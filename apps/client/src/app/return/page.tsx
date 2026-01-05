@@ -10,6 +10,18 @@ const page = async ({searchParams}:props) => {
   if(!sessionId){
     return <div>Invalid session</div>
   }
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/${sessionId}`,{
+    method:"GET"
+  })
+
+  if(!res.ok){
+    return <div>Error fetching session details</div>
+  }
+
+
+  const data = await res.json()
+  console.log(data)
   return (
     <div>
       
