@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { Prisma, prisma } from "@repo/product-db";
+import { Producer } from "../utils/kafka";
+import { StripeProductType } from "@repo/types";
 
 export const createProduct = async (req: Request, res: Response) => {
     const data: Prisma.ProductCreateInput = await req.body;
@@ -15,7 +17,6 @@ export const createProduct = async (req: Request, res: Response) => {
 
     const missingColors = colors.filter(color => !(color in images));
     
-    // Fix: Remove the "|| missingColors" part
     if(missingColors.length > 0){
        return res.status(400).json({message: `Images for colors ${missingColors.join(", ")} are missing`});
     }
@@ -23,6 +24,13 @@ export const createProduct = async (req: Request, res: Response) => {
     const product = await prisma.product.create({
         data: data,
     });
+    const stripeProduct:StripeProductType={
+        id:product.id,
+        name:product.name,
+        price:product.price
+    }
+
+    await Producer.send("product.created",{value:stripeProduct})
 
     res.status(201).json(product);
 }
@@ -32,7 +40,7 @@ export const updateProduct=async (req:Request,res:Response)=>{
 
     const product=await prisma.product.update({
         where:{
-            id:Number(id)
+            id:id
         },
         data:data
     });
@@ -74,7 +82,7 @@ export const getProduct=async (req:Request,res:Response)=>{
     const { id } = req.params;
     const product = await prisma.product.findUnique({
         where: {
-            id: Number(id),
+            id: id,
         },
     });
     res.status(200).json(product);
@@ -83,7 +91,7 @@ export const deleteProduct=async(req:Request,res:Response)=>{
     const { id } = req.params;
   const deleteProduct=await prisma.product.delete({
         where:{
-            id:Number(id)
+            id:id
         }
     });
     res.status(200).json(deleteProduct);

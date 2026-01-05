@@ -5,7 +5,7 @@ import productRouter from "./routes/product.route"
 import categoryRouter from "./routes/category.route"
 import { rateLimit } from 'express-rate-limit'
 import { shouldBeUser } from "./middleware/auth.middleware"
-
+import { Consumer, Producer } from "./utils/kafka"
 const app = express()
 const PORT = process.env.PORT || 8000
 app.use(express.json())
@@ -55,11 +55,15 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 }
 app.use(errorHandler)
 
-const server = app.listen(PORT, () => {
-    console.log(`Product Service running on port ${PORT}`)
-})
+const start=async()=>{
+    await Promise.all([await Consumer.connect(),await Producer.connect()])
+    try {
+       app.listen(PORT,()=>{
+        console.log("Product service is running in",PORT)
+       })
+    } catch (error) {
+        
+    }
+}
 
-process.on('SIGTERM', () => {
-    console.log('Shutting down gracefully...')
-    server.close(() => console.log('Server closed'))
-})
+start()

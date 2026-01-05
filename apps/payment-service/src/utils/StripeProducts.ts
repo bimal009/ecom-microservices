@@ -28,4 +28,14 @@ export const getStripeProductsPrices=async(productId:string)=>{
         console.error('Error creating Stripe products:', error);
     }
 }
+
+export const deleteStripeProductsPrices=async(productId:string)=>{
+    try {
+        const res = await stripe.products.del(productId)
+        return res
+    } catch (error) {
+        console.error('Error creating Stripe products:', error);
+    }
+}
+ 
  

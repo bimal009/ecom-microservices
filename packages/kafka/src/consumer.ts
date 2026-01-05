@@ -10,11 +10,11 @@ export const createConsumer=(Kafka:Kafka,groupId:string)=>{
     }
 
     const subscribe=async(
-        topics:string[],
+        topics:string,
         handler:(message:any)=>Promise<void>
     )=>{
         await Consumer.subscribe({
-            topics:topics,
+            topic:topics,
             fromBeginning:true
         })
 

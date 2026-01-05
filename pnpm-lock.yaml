@@ -249,6 +249,9 @@ importers:
         specifier: ^20.1.0
         version: 20.1.0(@types/node@20.19.27)
     devDependencies:
+      '@repo/kafka':
+        specifier: workspace:*
+        version: link:../../packages/kafka
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config

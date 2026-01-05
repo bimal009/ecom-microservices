@@ -1,17 +1,20 @@
-import type{ Kafka, Producer } from "kafkajs";
+import{ Partitioners, type Kafka, type Producer } from "kafkajs";
 
 export const createProducer=(Kafka:Kafka)=>{
 
-    const Producer:Producer = Kafka.producer()
+    const Producer:Producer = Kafka.producer({
+          createPartitioner: Partitioners.DefaultPartitioner
+    })
 
     const connect=async()=>{
     await Producer.connect()
     }
 
-    const sendMessages=async(topic:string,message:object)=>{
+    const send=async(topic:string,message:object)=>{
         await Producer.send({
             topic:topic,
             messages:[{value:JSON.stringify({message})}]
+            
         })
     }
 
@@ -19,5 +22,5 @@ export const createProducer=(Kafka:Kafka)=>{
         await Producer.disconnect()
     }
 
-    return {connect,sendMessages,disconnect}
+    return {connect,send,disconnect}
 }
