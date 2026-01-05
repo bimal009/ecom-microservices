@@ -2,6 +2,10 @@
   "name": "@repo/order-db",
   "version": "0.0.1",
   "type": "module",
+  "scripts": {
+    "check-types": "tsc --noEmit"
+
+  },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^25.0.3"
