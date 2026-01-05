@@ -30,7 +30,7 @@ export const shouldBeAdmin = async (req: Request, res: Response, next: NextFunct
     return res.status(401).json({ message: "Unauthorized" })
   }
   const claims = auth.sessionClaims as CustomJwtSessionClaims
-
+console.log(claims.metadata?.role)
   if (claims.metadata?.role !== 'admin') {
     return res.status(403).json({ message: "Unauthorized" })
   }

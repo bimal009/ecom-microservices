@@ -9,7 +9,7 @@ import { Consumer, Producer } from "./utils/kafka"
 const app = express()
 const PORT = process.env.PORT || 8000
 app.use(express.json())
-
+app.use(express.urlencoded({ extended: true }));
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 50,
