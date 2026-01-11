@@ -29,8 +29,10 @@ export const createProduct = async (req: Request, res: Response) => {
         name:product.name,
         price:product.price
     }
+console.log(stripeProduct)
 
-    await Producer.send("product.created",{value:stripeProduct})
+    const resp =await Producer.send("product.created",{value:stripeProduct})
+    console.log(resp)
 
     res.status(201).json(product);
 }

@@ -1,23 +1,15 @@
 import { prisma, Prisma } from "@repo/product-db";
 import { Request, Response } from "express";
 
+
 export const createCategory = async (req: Request, res: Response) => {
   try {
-    const { name, slug } = req.body;
-
-    // Check if category already exists
-    const existingCategory = await prisma.category.findUnique({
-      where: { slug }
-    });
-
-    if (existingCategory) {
-      return res.status(409).json({ 
-        message: 'Category with this slug already exists' 
-      });
-    }
-
+  
+    const data = req.body;
+    console.log(data)
+    
     const category = await prisma.category.create({
-      data: { name, slug }
+      data: data
     });
 
     res.status(201).json(category);

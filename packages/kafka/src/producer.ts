@@ -13,7 +13,7 @@ export const createProducer=(Kafka:Kafka)=>{
     const send=async(topic:string,message:object)=>{
         await Producer.send({
             topic:topic,
-            messages:[{value:JSON.stringify({message})}]
+            messages:[{value:JSON.stringify(message)}]
             
         })
     }
