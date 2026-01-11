@@ -6,6 +6,7 @@ import SessionRoute from './routes/session.route.js';
 import {cors} from 'hono/cors'
 import webhookRoute from './routes/webhook.route.js';
 import { Consumer, Producer } from './utils/kafka.js';
+import { runKafkaSubscriptions } from './utils/subscriptions.js';
 type Env = {
   Variables: {
     userId: string;
@@ -31,12 +32,14 @@ app.get('/test', shouldBeUser, (c) => {
   })
 })
 
+
 app.route('/sessions',SessionRoute)
 app.route('/webhooks',webhookRoute)
 
 const start = async() => {
   try {
     Promise.all([await Consumer.connect(),Producer.connect()])
+    await runKafkaSubscriptions()
     await serve({
       fetch: app.fetch,
       port: 8002

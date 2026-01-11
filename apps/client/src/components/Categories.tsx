@@ -6,49 +6,49 @@ import {
   Shirt,
   ShoppingBasket,
   Hand,
-  Venus,
+  User,
 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const categories = [
   {
     name: "All",
-    icon: <ShoppingBasket className="w-4 h-4" />,
+    icon: ShoppingBasket,
     slug: "all",
   },
   {
     name: "T-shirts",
-    icon: <Shirt className="w-4 h-4" />,
+    icon: Shirt,
     slug: "t-shirts",
   },
   {
     name: "Shoes",
-    icon: <Footprints className="w-4 h-4" />,
+    icon: Footprints,
     slug: "shoes",
   },
   {
     name: "Accessories",
-    icon: <Glasses className="w-4 h-4" />,
+    icon: Glasses,
     slug: "accessories",
   },
   {
     name: "Bags",
-    icon: <Briefcase className="w-4 h-4" />,
+    icon: Briefcase,
     slug: "bags",
   },
   {
     name: "Dresses",
-    icon: <Venus className="w-4 h-4" />,
+    icon: User,
     slug: "dresses",
   },
   {
     name: "Jackets",
-    icon: <Shirt className="w-4 h-4" />,
+    icon: Shirt,
     slug: "jackets",
   },
   {
     name: "Gloves",
-    icon: <Hand className="w-4 h-4" />,
+    icon: Hand,
     slug: "gloves",
   },
 ];
@@ -58,28 +58,42 @@ const Categories = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const selectedCategory = searchParams.get("category");
+  const selectedCategory = searchParams.get("category") || "all";
 
-  const handleChange = (value: string | null) => {
+  const handleChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set("category", value || "all");
+    params.set("category", value);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 bg-gray-100 p-2 rounded-lg mb-4 text-sm">
-      {categories.map((category) => (
-        <div
-          className={`flex items-center justify-center gap-2 cursor-pointer px-2 py-1 rounded-md ${
-            category.slug === selectedCategory ? "bg-white" : "text-gray-500"
-          }`}
-          key={category.name}
-          onClick={() => handleChange(category.slug)}
-        >
-          {category.icon}
-          {category.name}
-        </div>
-      ))}
+    <div className="mb-6 overflow-x-auto">
+      <div className="flex items-center gap-2 pb-2 min-w-max">
+        {categories.map((category) => {
+          const isSelected = category.slug === selectedCategory;
+          const Icon = category.icon;
+          
+          return (
+            <button
+              key={category.slug}
+              onClick={() => handleChange(category.slug)}
+              className={`
+                flex items-center gap-2 px-4 py-2.5 rounded-lg
+                whitespace-nowrap text-sm font-medium
+                transition-all duration-200 ease-in-out
+                ${
+                  isSelected
+                    ? "bg-black text-white"
+                    : "bg-white text-black hover:bg-gray-100 border border-black"
+                }
+              `}
+            >
+              <Icon className="w-4 h-4" />
+              {category.name}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

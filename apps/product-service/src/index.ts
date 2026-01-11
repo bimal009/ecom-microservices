@@ -42,6 +42,8 @@ app.get('/test', shouldBeUser, (req: Request, res: Response) => {
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
 
+
+
 app.use((req: Request, res: Response) => {
     res.status(404).json({ message: "Route not found" })
 })

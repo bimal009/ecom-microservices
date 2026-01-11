@@ -14,13 +14,14 @@ const Filter = () => {
   };
 
   return (
-    <div className="flex items-center justify-end gap-2 text-sm text-gray-500 my-6">
-      <span>Sort by:</span>
+    <div className="flex items-center justify-end gap-3 text-sm my-6">
+      <span className="font-medium text-gray-700">Sort by:</span>
       <select
         name="sort"
         id="sort"
-        className="ring-1 ring-gray-200 shadow-md p-1 rounded-sm"
+        className="border border-black rounded-lg px-4 py-2 bg-white text-black font-medium cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black transition-all"
         onChange={(e) => handleFilter(e.target.value)}
+        defaultValue={searchParams.get("sort") || "newest"}
       >
         <option value="newest">Newest</option>
         <option value="oldest">Oldest</option>

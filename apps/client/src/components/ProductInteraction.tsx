@@ -48,81 +48,89 @@ const ProductInteraction = ({
     });
     toast.success("Product added to cart")
   };
+  
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex flex-col gap-6">
       {/* SIZE */}
-      <div className="flex flex-col gap-2 text-xs">
-        <span className="text-gray-500">Size</span>
+      <div className="flex flex-col gap-3">
+        <span className="text-sm font-bold text-black uppercase tracking-wide">Size</span>
         <div className="flex items-center gap-2">
           {product.sizes.map((size) => (
-            <div
-              className={`cursor-pointer border-1 p-[2px] ${
-                selectedSize === size ? "border-gray-600" : "border-gray-300"
+            <button
+              className={`cursor-pointer border-2 transition-all duration-200 rounded-lg ${
+                selectedSize === size 
+                  ? "border-black bg-black text-white" 
+                  : "border-black bg-white text-black hover:bg-gray-100"
               }`}
               key={size}
               onClick={() => handleTypeChange("size", size)}
             >
-              <div
-                className={`w-6 h-6 text-center flex items-center justify-center ${
-                  selectedSize === size
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
-                }`}
-              >
+              <div className="w-12 h-12 flex items-center justify-center font-bold text-sm">
                 {size.toUpperCase()}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
+      
       {/* COLOR */}
-      <div className="flex flex-col gap-2 text-sm">
-        <span className="text-gray-500">Color</span>
+      <div className="flex flex-col gap-3">
+        <span className="text-sm font-bold text-black uppercase tracking-wide">Color</span>
         <div className="flex items-center gap-2">
           {product.colors.map((color) => (
-            <div
-              className={`cursor-pointer border-1 p-[2px] ${
-                selectedColor === color ? "border-gray-300" : "border-white"
+            <button
+              className={`cursor-pointer rounded-full p-1 transition-all duration-200 ${
+                selectedColor === color 
+                  ? "ring-2 ring-black ring-offset-2" 
+                  : "ring-2 ring-gray-300 hover:ring-black"
               }`}
               key={color}
               onClick={() => handleTypeChange("color", color)}
             >
-              <div className={`w-6 h-6`} style={{ backgroundColor: color }} />
-            </div>
+              <div 
+                className="w-8 h-8 rounded-full border border-black" 
+                style={{ backgroundColor: color }} 
+              />
+            </button>
           ))}
         </div>
       </div>
+      
       {/* QUANTITY */}
-      <div className="flex flex-col gap-2 text-sm">
-        <span className="text-gray-500">Quantity</span>
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-3">
+        <span className="text-sm font-bold text-black uppercase tracking-wide">Quantity</span>
+        <div className="flex items-center gap-3">
           <button
-            className="cursor-pointer border-1 border-gray-300 p-1"
+            className="cursor-pointer border-2 border-black rounded-lg p-2 hover:bg-black hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => handleQuantityChange("decrement")}
+            disabled={quantity === 1}
           >
-            <Minus className="w-4 h-4" />
+            <Minus className="w-5 h-5" />
           </button>
-          <span>{quantity}</span>
+          <span className="font-bold text-xl min-w-[3ch] text-center">{quantity}</span>
           <button
-            className="cursor-pointer border-1 border-gray-300 p-1"
+            className="cursor-pointer border-2 border-black rounded-lg p-2 hover:bg-black hover:text-white transition-all duration-200"
             onClick={() => handleQuantityChange("increment")}
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-5 h-5" />
           </button>
         </div>
       </div>
+      
       {/* BUTTONS */}
-      <button
-        onClick={handleAddToCart}
-        className="bg-gray-800 text-white px-4 py-2 rounded-md shadow-lg flex items-center justify-center gap-2 cursor-pointer text-sm font-medium"
-      >
-        <Plus className="w-4 h-4" />
-        Add to Cart
-      </button>
-      <button className="ring-1 ring-gray-400 shadow-lg text-gray-800 px-4 py-2 rounded-md flex items-center justify-center cursor-pointer gap-2 text-sm font-medium">
-        <ShoppingCart className="w-4 h-4" />
-        Buy this Item
-      </button>
+      <div className="flex flex-col gap-3 pt-4">
+        <button
+          onClick={handleAddToCart}
+          className="bg-black text-white px-6 py-4 rounded-lg flex items-center justify-center gap-2 cursor-pointer text-base font-bold active:scale-98 transition-all duration-200"
+        >
+          <Plus className="w-5 h-5" />
+          Add to Cart
+        </button>
+        <button className="border-2 border-black bg-white text-black px-6 py-4 rounded-lg flex items-center justify-center cursor-pointer gap-2 text-base font-bold hover:bg-black hover:text-white transition-all duration-200">
+          <ShoppingCart className="w-5 h-5" />
+          Buy Now
+        </button>
+      </div>
     </div>
   );
 };

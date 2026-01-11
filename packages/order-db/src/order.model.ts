@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const {Schema}=mongoose;
 
-export const orderStatus=["pending","completed","cancelled"] as const;
+export const orderStatus=["failed","success"] as const;
 
 const orderSchema=new Schema({
     userId:{type:String,required:true},
