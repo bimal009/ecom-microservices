@@ -4,6 +4,7 @@ import { clerkMiddleware } from '@clerk/express'
 import { rateLimit } from 'express-rate-limit'
 import { shouldBeAdmin } from "./middleware/auth.middleware"
 import userRoute from "./routes/users.routes"
+import { Producer } from "./utils/kafka"
 const app = express()
 const PORT = process.env.PORT || 8003
 app.use(express.json())
@@ -50,6 +51,7 @@ app.use(errorHandler)
 
 const start=async()=>{
     try {
+        await Producer.connect()
        app.listen(PORT,()=>{
         console.log("Auth service is running in",PORT)
        })

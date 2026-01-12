@@ -13,7 +13,8 @@ export async function orderRoutes(app: FastifyInstance) {
     return reply.status(200).send(orders);
   });
   app.get("/orders", { preHandler: shouldBeAdmin }, async (request, reply) => {
-    const orders = await Order.find()
+    const {limit} = request.query as {limit:number}
+    const orders = await Order.find().limit(limit)
     return reply.status(200).send(orders);
   });
 

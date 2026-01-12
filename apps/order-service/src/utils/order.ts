@@ -1,16 +1,21 @@
 import { Order } from "@repo/order-db";
 import { OrderType } from "@repo/types";
+import { Producer } from "./kafka";
 
 export const createOrder = async (order: OrderType) => {
-    console.log("Creating order:", order)
-    
-    try {
-        const newOrder = new Order(order)
-        const res = await newOrder.save()
-        console.log("Order created successfully:", res)
-        return res
-    } catch (error) {
-        console.error("Error creating order:", error)
-        throw error
-    }
-}
+  const newOrder = new Order(order);
+
+  try {
+    const order = await newOrder.save();
+    Producer.send("order.created", {
+      value: {
+        email: order.email,
+        amount: order.amount,
+        status: order.status,
+      },
+    });
+} catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

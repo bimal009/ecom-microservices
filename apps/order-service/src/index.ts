@@ -1,6 +1,5 @@
-// index.ts
 import Fastify from 'fastify'
-import { clerkClient, clerkPlugin, getAuth } from '@clerk/fastify'
+import {  clerkPlugin } from '@clerk/fastify'
 import { shouldBeUser } from './middleware/auth.middleware'
 import { connectToOrderDB } from '@repo/order-db'
 import { orderRoutes } from './routes/order.route'
